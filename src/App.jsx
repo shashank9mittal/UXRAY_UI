@@ -7,9 +7,12 @@ function App() {
   return (
     <div className="w-full min-h-screen bg-slate-900 text-white">
       <Navbar />
+      
+      {/* Spacer to prevent content from going under fixed navbar */}
+      <div className="h-16 sm:h-20 md:h-24 lg:h-32"></div>
 
-      {/* Main Content with responsive top margin */}
-      <main className="mt-16 sm:mt-20 md:mt-24 lg:mt-24 w-full flex justify-center">
+      {/* Main Content */}
+      <main className="w-full flex justify-center">
         <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {/* Hero Section */}
           <section className="text-center mb-16">
