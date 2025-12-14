@@ -10,6 +10,7 @@ export function useAnalyzeURL() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [analysisData, setAnalysisData] = useState(null);
 
   const analyzeURL = async (url) => {
     if (!url || !url.trim()) {
@@ -20,6 +21,7 @@ export function useAnalyzeURL() {
     setIsLoading(true);
     setError("");
     setSuccess("");
+    setAnalysisData(null);
 
     try {
       const response = await fetch(`${API_BASE_URL}/analyze`, {
@@ -42,6 +44,7 @@ export function useAnalyzeURL() {
       // Success response
       const successMessage = data.message || "Analysis request received successfully";
       setSuccess(successMessage);
+      setAnalysisData(data);
       console.log("Analysis response:", data);
       
       return data;
@@ -58,6 +61,7 @@ export function useAnalyzeURL() {
   const clearMessages = () => {
     setError("");
     setSuccess("");
+    setAnalysisData(null);
   };
 
   return {
@@ -65,6 +69,7 @@ export function useAnalyzeURL() {
     isLoading,
     error,
     success,
+    analysisData,
     clearMessages,
   };
 }

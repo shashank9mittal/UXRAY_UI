@@ -1,9 +1,10 @@
 import { useState } from "react";
 import { useAnalyzeURL } from "../hooks/useAnalyzeURL";
+import AnalysisResults from "./AnalysisResults";
 
 function URLInput() {
   const [url, setUrl] = useState("");
-  const { analyzeURL, isLoading, error, success, clearMessages } = useAnalyzeURL();
+  const { analyzeURL, isLoading, error, success, analysisData, clearMessages } = useAnalyzeURL();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,6 +83,9 @@ function URLInput() {
           )}
         </form>
       </div>
+
+      {/* Analysis Results */}
+      {analysisData && <AnalysisResults analysisData={analysisData} />}
     </div>
   );
 }
