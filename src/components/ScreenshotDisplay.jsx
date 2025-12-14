@@ -7,7 +7,34 @@ import PropTypes from "prop-types";
  * @param {string} className - Additional CSS classes
  */
 function ScreenshotDisplay({ screenshot, alt = "Page screenshot", className = "" }) {
-  if (!screenshot) {
+  // Normalize screenshot to string - handle cases where it might be an object
+  const getScreenshotSrc = () => {
+    if (!screenshot) return null;
+    
+    // If it's already a string, return it
+    if (typeof screenshot === "string") {
+      return screenshot;
+    }
+    
+    // If it's an object, try to extract the string value
+    if (typeof screenshot === "object") {
+      // Check common object properties that might contain the base64 string
+      if (screenshot.data) return screenshot.data;
+      if (screenshot.url) return screenshot.url;
+      if (screenshot.src) return screenshot.src;
+      if (screenshot.base64) return screenshot.base64;
+      
+      // If object has a toString method that might help
+      console.warn("Screenshot is an object, expected string. Object:", screenshot);
+      return null;
+    }
+    
+    return null;
+  };
+
+  const screenshotSrc = getScreenshotSrc();
+
+  if (!screenshotSrc) {
     return (
       <div className={`flex items-center justify-center p-8 bg-slate-800 rounded-lg border border-slate-700 ${className}`}>
         <p className="text-gray-400 text-sm">No screenshot available</p>
@@ -15,13 +42,32 @@ function ScreenshotDisplay({ screenshot, alt = "Page screenshot", className = ""
     );
   }
 
+  // Validate that it's a proper data URL or image URL
+  const isValidImageSrc = screenshotSrc.startsWith("data:image") || 
+                          screenshotSrc.startsWith("http://") || 
+                          screenshotSrc.startsWith("https://") ||
+                          screenshotSrc.startsWith("/");
+
+  if (!isValidImageSrc) {
+    console.warn("Invalid screenshot format:", screenshotSrc.substring(0, 50));
+    return (
+      <div className={`flex items-center justify-center p-8 bg-slate-800 rounded-lg border border-slate-700 ${className}`}>
+        <p className="text-red-400 text-sm">Invalid screenshot format</p>
+      </div>
+    );
+  }
+
   return (
     <div className={`rounded-lg overflow-hidden border border-slate-700 bg-slate-800 ${className}`}>
       <img
-        src={screenshot}
+        src={screenshotSrc}
         alt={alt}
         className="w-full h-auto object-contain"
         loading="lazy"
+        onError={(e) => {
+          console.error("Error loading screenshot image");
+          e.target.style.display = "none";
+        }}
       />
     </div>
   );

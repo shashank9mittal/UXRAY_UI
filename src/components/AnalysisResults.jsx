@@ -22,6 +22,14 @@ function AnalysisResults({ analysisData, className = "" }) {
     url,
   } = analysisData;
 
+  // Debug: Log screenshot type to help identify issues
+  if (screenshot) {
+    console.log("Screenshot type:", typeof screenshot, "Is string:", typeof screenshot === "string");
+    if (typeof screenshot !== "string") {
+      console.log("Screenshot is not a string:", screenshot);
+    }
+  }
+
   return (
     <div className={`w-full mt-8 ${className}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
