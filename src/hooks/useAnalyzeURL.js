@@ -9,6 +9,8 @@ export function useAnalyzeURL() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
   const [screenshot, setScreenshot] = useState(null);
+  const [interactiveDNA, setInteractiveDNA] = useState([]);
+  const [analysisData, setAnalysisData] = useState(null);
 
   const getScreenshot = async (url) => {
     if (!url || !url.trim()) {
@@ -20,6 +22,8 @@ export function useAnalyzeURL() {
     setIsLoading(true);
     setError("");
     setScreenshot(null);
+    setInteractiveDNA([]);
+    setAnalysisData(null);
 
     const trimmedUrl = url.trim();
 
@@ -65,6 +69,14 @@ export function useAnalyzeURL() {
         setError("No screenshot received from server");
       }
 
+      // Store interactive DNA data
+      if (data.interactiveDNA && Array.isArray(data.interactiveDNA)) {
+        setInteractiveDNA(data.interactiveDNA);
+      }
+
+      // Store full analysis data
+      setAnalysisData(data);
+
       setIsLoading(false);
       return data;
     } catch (error) {
@@ -78,6 +90,8 @@ export function useAnalyzeURL() {
   const clearMessages = () => {
     setError("");
     setScreenshot(null);
+    setInteractiveDNA([]);
+    setAnalysisData(null);
   };
 
   return {
@@ -85,6 +99,8 @@ export function useAnalyzeURL() {
     isLoading,
     error,
     screenshot,
+    interactiveDNA,
+    analysisData,
     clearMessages,
   };
 }

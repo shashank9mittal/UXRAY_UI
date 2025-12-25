@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useAnalyzeURL } from "../hooks/useAnalyzeURL";
 import ScreenshotDisplay from "./ScreenshotDisplay";
+import InteractiveDNAVisualizer from "./InteractiveDNAVisualizer";
 
 function URLInput() {
   const [url, setUrl] = useState("");
-  const { getScreenshot, isLoading, error, screenshot, clearMessages } = useAnalyzeURL();
+  const { getScreenshot, isLoading, error, screenshot, interactiveDNA, clearMessages } = useAnalyzeURL();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -82,6 +83,11 @@ function URLInput() {
             <ScreenshotDisplay screenshot={screenshot} alt={`Screenshot of ${url}`} />
           </div>
         </div>
+      )}
+
+      {/* Interactive DNA Visualizer */}
+      {screenshot && interactiveDNA && interactiveDNA.length > 0 && (
+        <InteractiveDNAVisualizer screenshot={screenshot} elements={interactiveDNA} />
       )}
     </div>
   );
