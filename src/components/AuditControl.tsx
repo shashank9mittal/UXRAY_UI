@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { API_ENDPOINTS } from '../config/api';
 
 interface AuditControlProps {
   userId?: string;
@@ -18,7 +19,7 @@ function AuditControl({ userId = 'test-user-2', url: urlProp }: AuditControlProp
         requestBody.url = url.trim();
       }
 
-      const response = await fetch('http://localhost:3000/session/start', {
+      const response = await fetch(API_ENDPOINTS.SESSION_START, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

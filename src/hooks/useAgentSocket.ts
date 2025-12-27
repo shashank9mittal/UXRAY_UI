@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { WS_ENDPOINTS } from '../config/api';
 
 /**
  * Custom hook for establishing WebSocket connection to the agent server
@@ -12,7 +13,7 @@ export function useAgentSocket(userId: string) {
     }
 
     // Establish WebSocket connection
-    const ws = new WebSocket(`ws://localhost:3000/?userId=${userId}`);
+    const ws = new WebSocket(WS_ENDPOINTS.AGENT(userId));
 
     // Event listener for when connection is opened
     ws.onopen = () => {
