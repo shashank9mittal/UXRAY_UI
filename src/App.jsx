@@ -1,7 +1,11 @@
 import Navbar from "./components/Navbar";
 import URLInput from "./components/URLInput";
+import AuditControl from "./components/AuditControl";
+import { useAgentSocket } from "./hooks/useAgentSocket";
 
 function App() {
+  // Initialize WebSocket connection
+  useAgentSocket('test-user-2');
   return (
     <div className="w-full min-h-screen bg-slate-900 text-white">
       <Navbar />
@@ -21,6 +25,9 @@ function App() {
               Your modern UI experience
             </p>
           </section>
+
+          {/* Audit Control Component */}
+          <AuditControl />
 
           {/* URL Input Component */}
           <URLInput />
